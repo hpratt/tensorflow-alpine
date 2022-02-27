@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import glob
+
+def main(argc, argv):
+    try:
+        DEFAULT_TARGET = glob.glob("/root/.cache/bazel/_bazel_root/install/*/_embedded_binaries")[0] + "/embedded_tools"
+    except:
+        DEFAULT_TARGET="/root/embedded_tools"
+    target = None
+    output = None
+    for i, x in enumerate(argv):
+        if x == "-qn" or x == "-q": target = argv[i + 1] if argv[i + 1] != "-d" else argv[-1]
+        elif x == "-d": output = argv[i + 1]
+    print("7z -y x %s -o%s" % (target, DEFAULT_TARGET), file = sys.stderr)
+    if output is None: return os.system("7z -y x %s -o%s" % (target, DEFAULT_TARGET))
+    return os.system("7z -y x %s -o%s" % (target, output))
+
+if __name__ == "__main__":
+    sys.exit(main(len(sys.argv), sys.argv))
