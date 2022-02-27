@@ -81,7 +81,6 @@ RUN cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
         bash configure
 
 # start the build process; allow it to fail but create directories which need some patching
-RUN echo "!"
 RUN mv /root/embedded_tools /root/.cache/bazel/_bazel_root/install/*/_embedded_binaries/ && \
     echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories && apk update && apk add py3-numpy-dev && \
     ln -s /usr/lib/python3.9/site-packages/numpy/core/include/numpy/ /usr/include/numpy
@@ -107,8 +106,6 @@ RUN cp /patches/stacktrace_handler.cc /tmp/tensorflow-1.7.0/tensorflow/core/plat
     cp /patches/bfloat16.cc /tmp/tensorflow-1.7.0/tensorflow/python/lib/core && \
     cp /patches/ndarray_tensor_bridge.cc /tmp/tensorflow-1.7.0/tensorflow/python/lib/core && \
     cp /patches/python_configure.bzl /tmp/tensorflow-1.7.0/third_party/py
-
-#     find /tmp/tensorflow-1.7.0/bazel-out/k8-py3-opt/genfiles/tensorflow/python/framework/fast_tensor_util.cpp -type f -exec sed -i -e 's/[\-][\>]exc/[\-][\>]curexc/g' {} \; && \
 
 # resume and complete the patched build
 RUN cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/third_party/toolchains/gpus/crosstool/CROSSTOOL && \
