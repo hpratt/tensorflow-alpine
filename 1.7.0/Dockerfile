@@ -67,7 +67,7 @@ RUN cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
     && sed -i -e '/define TF_GENERATE_BACKTRACE/d' tensorflow/core/platform/default/stacktrace.h \
     && PYTHON_BIN_PATH=/usr/bin/python \
         PYTHON_LIB_PATH=/usr/lib/python3.9/site-packages \
-        CC_OPT_FLAGS="-march=native" \
+        CC_OPT_FLAGS="${CC_OPT_FLAGS}" \
         TF_NEED_JEMALLOC=1 \
         TF_NEED_GCP=0 \
         TF_NEED_HDFS=0 \
