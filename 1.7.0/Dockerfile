@@ -111,7 +111,6 @@ RUN cp /patches/stacktrace_handler.cc /tmp/tensorflow-1.7.0/tensorflow/core/plat
 RUN cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/third_party/toolchains/gpus/crosstool/CROSSTOOL && \
     cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/CROSSTOOL && \
     cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
-    && echo "cxx_builtin_include_directory: \"/tmp/tensorflow-${TENSORFLOW_VERSION}/bazel-out/k8-py3-opt/genfiles/external/local_config_python/numpy_include/numpy\"" >> /tmp/tensorflow-${TENSORFLOW_VERSION}/CROSSTOOL \
     && bazel build --config=opt -c opt --local_resources ${LOCAL_RESOURCES} //tensorflow/tools/pip_package:build_pip_package; exit 0
 RUN find /tmp/tensorflow-1.7.0/tensorflow/python/eager/pywrap_tfe_src.cc -exec sed -i "s/return PyUnicode_AsUTF8/return (char*)PyUnicode_AsUTF8/g" {} \; && \
     cd /tmp/tensorflow-${TENSORFLOW_VERSION} && \
@@ -131,5 +130,6 @@ RUN apk add --no-cache python3 py3-pip build-base python3-dev linux-headers && \
     python3 -m pip install /tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl && \
     apk add openblas-dev py3-setuptools py3-scipy py3-h5py && \
     python3 -m pip install keras==2.1.6 && \
-    apk del --purge build-base
+    apk del --purge build-base && \
+    rm /tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl
 COPY patches/models.py /usr/lib/python3.9/site-packages/keras/models.py
