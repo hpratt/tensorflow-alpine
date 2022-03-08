@@ -236,7 +236,7 @@ def _get_python_import_lib_name(repository_ctx, python_bin):
 
 def _get_numpy_include(repository_ctx, python_bin):
   """Gets the numpy include path."""
-  return "/usr/lib/python3.9/site-packages"
+  return "/usr/lib/python3.8/site-packages"
   return _execute(repository_ctx,
                   [python_bin, "-c",
                    'from __future__ import print_function;' +
