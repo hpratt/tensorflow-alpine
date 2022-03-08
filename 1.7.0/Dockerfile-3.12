@@ -99,7 +99,7 @@ RUN find /root/.cache/bazel/_bazel_root/*/external/cython/Cython -type f -exec s
 
 # more alpine patches
 COPY patches /patches
-RUN echo "!" && cp /patches/stacktrace_handler.cc /tmp/tensorflow-1.7.0/tensorflow/core/platform/stacktrace_handler.cc && \
+RUN echo "!" && cp /patches/stacktrace_handler.3-12.cc /tmp/tensorflow-1.7.0/tensorflow/core/platform/stacktrace_handler.cc && \
     cp /patches/ExprNodes.py /root/.cache/bazel/_bazel_root/*/external/cython/Cython/Compiler/ && \
     cp /patches/ParseTreeTransforms.py /root/.cache/bazel/_bazel_root/*/external/cython/Cython/Compiler/ && \
     cp /patches/jemalloc.c /root/.cache/bazel/_bazel_root/*/external/jemalloc/src && \
@@ -107,7 +107,7 @@ RUN echo "!" && cp /patches/stacktrace_handler.cc /tmp/tensorflow-1.7.0/tensorfl
     cp /patches/pywrap_tfe_src.3.12.cc /tmp/tensorflow-1.7.0/tensorflow/python/eager/pywrap_tfe_src.cc && \
     cp /patches/bfloat16.3.12.cc /tmp/tensorflow-1.7.0/tensorflow/python/lib/core/bfloat16.cc && \
     cp /patches/ndarray_tensor_bridge.cc /tmp/tensorflow-1.7.0/tensorflow/python/lib/core && \
-    cp /patches/python_configure.bzl /tmp/tensorflow-1.7.0/third_party/py
+    cp /patches/python_configure.3.12.bzl /tmp/tensorflow-1.7.0/third_party/py/python_configure.bzl
 
 # resume and complete the patched build
 RUN cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/third_party/toolchains/gpus/crosstool/CROSSTOOL && \
