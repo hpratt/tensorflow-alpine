@@ -484,7 +484,7 @@ void BinaryUFunc(const char** args, npy_intp const* dimensions, npy_intp const* 
                  void* data) {
   const char* i0 = args[0];
   const char* i1 = args[1];
-  char* o = args[2];
+  char* o = (char*)args[2];
   for (npy_intp k = 0; k < *dimensions; k++) {
     InType x = *reinterpret_cast<const InType*>(i0);
     InType y = *reinterpret_cast<const InType*>(i1);

@@ -93,13 +93,12 @@ RUN cd /tmp/tensorflow-1.7.0 && bazel clean
 RUN find /root/.cache/bazel/_bazel_root/*/external/cython/Cython -type f -exec sed -i -e 's/exc_/curexc_/g' {} \; && \
     find /root/.cache/bazel/_bazel_root/*/external/protobuf_archive/python/google/protobuf/pyext -name "*.cc" -exec sed -i "s/PyUnicode_AsUTF8/(char*)PyUnicode_AsUTF8/g" {} \; && \
     find /root/.cache/bazel/_bazel_root/*/external/cython/Cython -type f -exec sed -i -e 's/curcurexc_/curexc_/g' {} \; && \
-    find /tmp/tensorflow-1.7.0/ -name "*.cc" -exec sed -i "s/PyUnicode_AsUTF8/(char*)PyUnicode_AsUTF8/g" {} \;
-#     grep -v static.long.gettid /root/.cache/bazel/_bazel_root/*/external/grpc/src/core/lib/support/log_linux.cc > t && \
-#     mv t /root/.cache/bazel/_bazel_root/*/external/grpc/src/core/lib/support/log_linux.cc
+    find /tmp/tensorflow-1.7.0/ -name "*.cc" -exec sed -i "s/PyUnicode_AsUTF8/(char*)PyUnicode_AsUTF8/g" {} \; && \
+    find /root/.cache/bazel/_bazel_root/*/external/protobuf_archive/python/google/protobuf/pyext -name "*.cc" -print
 
 # more alpine patches
 COPY patches /patches
-RUN echo "!" && cp /patches/stacktrace_handler.3-12.cc /tmp/tensorflow-1.7.0/tensorflow/core/platform/stacktrace_handler.cc && \
+RUN cp /patches/stacktrace_handler.3-12.cc /tmp/tensorflow-1.7.0/tensorflow/core/platform/stacktrace_handler.cc && \
     cp /patches/ExprNodes.py /root/.cache/bazel/_bazel_root/*/external/cython/Cython/Compiler/ && \
     cp /patches/ParseTreeTransforms.py /root/.cache/bazel/_bazel_root/*/external/cython/Cython/Compiler/ && \
     cp /patches/jemalloc.c /root/.cache/bazel/_bazel_root/*/external/jemalloc/src && \
