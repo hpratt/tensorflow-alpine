@@ -117,19 +117,19 @@ RUN cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/third_party/toolchains/gpus/cros
     cp /patches/CROSSTOOL /tmp/tensorflow-1.7.0/CROSSTOOL && \
     cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
     && ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
-RUN cp /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl /root
+RUN cp /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-*-linux_x86_64.whl /root
 
 # copy wheel over and install
 
 FROM alpine:3.12
 
 ENV TENSORFLOW_VERSION 1.7.0
-COPY --from=build /root/tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl /
+COPY --from=build /root/tensorflow-${TENSORFLOW_VERSION}-cp38-cp38-linux_x86_64.whl /
 RUN apk add --no-cache python3 py3-pip build-base python3-dev linux-headers && \
     apk add py3-grpcio && \
-    python3 -m pip install /tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl && \
+    python3 -m pip install /tensorflow-${TENSORFLOW_VERSION}-cp38-cp38-linux_x86_64.whl && \
     apk add openblas-dev py3-setuptools py3-scipy py3-h5py && \
     python3 -m pip install keras==2.1.6 && \
     apk del --purge build-base && \
-    rm /tensorflow-${TENSORFLOW_VERSION}-cp39-cp39-linux_x86_64.whl
+    rm /tensorflow-${TENSORFLOW_VERSION}-cp38-cp38-linux_x86_64.whl
 COPY patches/models.py /usr/lib/python3.8/site-packages/keras/models.py
