@@ -129,8 +129,6 @@ RUN apk add --no-cache python3 py3-pip build-base python3-dev linux-headers && \
     apk add py3-grpcio && \
     python3 -m pip install /tensorflow-${TENSORFLOW_VERSION}-cp38-cp38-linux_x86_64.whl && \
     apk add openblas-dev py3-setuptools py3-scipy hdf5-dev && \
-    python3 -m pip install h5py==3.5.0 && \
-    python3 -m pip install keras==2.1.6 && \
     apk del --purge build-base && \
     rm /tensorflow-${TENSORFLOW_VERSION}-cp38-cp38-linux_x86_64.whl
 COPY patches/models.py /usr/lib/python3.8/site-packages/keras/models.py
